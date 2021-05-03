@@ -1,41 +1,60 @@
 package com.testservice.webapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicle")
-public class Vehicle {
+public class Vehicle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @Column(name = "type")
+    @NotNull
     private String type;
 
     @Column(name = "licence_plate")
     private String licencePlate;
 
     @Column(name = "model")
+    @NotNull
     private String model;
 
     @Column(name = "brand")
+    @NotNull
     private String brand;
 
     @Column(name = "year_of_registration")
-    private int yOfRegistration;
+    @NotNull
+    private int regYear;
 
-    public Vehicle(String type, String licencePlate, String model, String brand, int yOfRegistration) {
+    @OneToMany(mappedBy = "theVehicle", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Reservation> reservation;
+
+    public List<Reservation> getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(List<Reservation> reservation) {
+        this.reservation = reservation;
+    }
+
+    public Vehicle(String type, String licencePlate, String model, String brand, int regYear) {
         this.type = type.toUpperCase();
         this.licencePlate = licencePlate.toUpperCase();
         this.model = model.toUpperCase();
         this.brand = brand.toUpperCase();
-        this.yOfRegistration = yOfRegistration;
+        this.regYear = regYear;
     }
 
-    public Vehicle() {
-
-    }
+    public Vehicle() { }
 
     public String getType() {
         return type;
@@ -73,25 +92,16 @@ public class Vehicle {
         return id;
     }
 
-    public int getyOfRegistration() {
-        return yOfRegistration;
+    public int getyRegYear() {
+        return regYear;
     }
 
-    public void setyOfRegistration(int yOfRegistration) {
-        this.yOfRegistration = yOfRegistration;
+    public void setyRegYear(int yOfRegistration) {
+        this.regYear = yOfRegistration;
     }
 
 }
 
 /*
-    @OneToMany(mappedBy = "theVehicle", cascade = CascadeType.REMOVE)
-    private List<Reservation> reservation;
 
-    public List<Reservation> getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(List<Reservation> reservation) {
-        this.reservation = reservation;
-    }
  */
