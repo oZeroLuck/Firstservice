@@ -15,12 +15,12 @@ public class Reservation implements Serializable {
     @Column
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="vehicle_id", referencedColumnName = "id", nullable = false)
     @JsonManagedReference
     private Vehicle theVehicle;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="customer_id", nullable = false)
     @JsonManagedReference
     //@JsonBackReference
