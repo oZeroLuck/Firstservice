@@ -1,11 +1,13 @@
 package com.testservice.webapp.controller;
 
+import com.testservice.webapp.entity.Reservation;
 import com.testservice.webapp.entity.Vehicle;
+import com.testservice.webapp.repository.ReservationRep;
 import com.testservice.webapp.repository.VehicleRep;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/jpa")
@@ -13,13 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarParkController {
 
     private final VehicleRep vehicleRep;
+    private final ReservationRep reservationRep;
 
-    public CarParkController(VehicleRep vehicleRep) {
+    public CarParkController(VehicleRep vehicleRep, ReservationRep reservationRep) {
         this.vehicleRep = vehicleRep;
+        this.reservationRep = reservationRep;
     }
 
     @GetMapping("/find")
     public Vehicle getVehicle() {
         return vehicleRep.getVehicleById(1);
     }
+
+    @GetMapping("/reservation")
+    public Reservation getReservation() {
+        return reservationRep.getReservationById(2);
+    }
+
+    /*public ResponseEntity<Vehicle> createVehicle(@Valid @ResponseBody Vehicle vehicle) {
+
+    }*/
 }
