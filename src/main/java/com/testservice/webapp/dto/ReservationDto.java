@@ -14,7 +14,7 @@ public class ReservationDto {
 
     public ReservationDto(Reservation reservation) {
         this.id = reservation.getId();
-        this.userId = reservation.getTheCustomer().getUserId();
+        this.userId = reservation.getTheCustomer().getId();
         this.vehicleId = reservation.getTheVehicle().getId();
         this.startDate = reservation.getStartDate();
         this.endDate = reservation.getEndDate();

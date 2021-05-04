@@ -32,4 +32,9 @@ public class VehicleServiceImpl implements VehicleService {
     public void deleteVehicle(Vehicle vehicle) {
         this.vehicleRep.delete(vehicle);
     }
+
+    @Override
+    public void save(Vehicle vehicle) {
+        this.vehicleRep.save(vehicle);
+    }
 }

@@ -1,6 +1,6 @@
 package com.testservice.webapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -35,7 +35,7 @@ public class Vehicle implements Serializable {
     private int regYear;
 
     @OneToMany(mappedBy = "theVehicle", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonIgnore
     private List<Reservation> reservation;
 
     public List<Reservation> getReservation() {

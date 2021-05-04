@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface UserRep extends CrudRepository<User, Integer> {
 
-    List<User> findAll();
+    List<User> getDistinctByIsAdmin(boolean isAdmin);
 
     User getById(int id);
 
     User getByUsername(String username);
+
+    User getByIdAndUsername(int id, String username);
 }

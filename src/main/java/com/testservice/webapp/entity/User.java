@@ -1,6 +1,7 @@
 package com.testservice.webapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -42,10 +43,10 @@ public class User implements Serializable {
     private Date birthDate;
 
     @OneToMany(mappedBy = "theCustomer", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonIgnore
     private List<Reservation> reservations;
 
-    @Column
+    @Column(name = "is_admin")
     private boolean isAdmin;
 
     public User() { }
@@ -82,14 +83,7 @@ public class User implements Serializable {
         this.password = password;
         this.birthDate = birthDate;
         this.isAdmin = false;
-    }
 
-    public int getUserId() {
-        return id;
-    }
-
-    public void setUserId(int id) {
-        this.id = id;
     }
 
     public Date getBirthDate() {
@@ -98,14 +92,6 @@ public class User implements Serializable {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
     }
 
     public String getUsername() {

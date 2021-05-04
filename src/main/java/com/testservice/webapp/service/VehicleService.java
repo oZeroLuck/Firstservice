@@ -8,4 +8,6 @@ public interface VehicleService {
     public void createVehicle(Vehicle vehicle);
 
     public void deleteVehicle(Vehicle vehicle);
+
+    void save(Vehicle vehicle);
 }

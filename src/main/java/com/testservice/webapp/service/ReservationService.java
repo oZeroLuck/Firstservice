@@ -6,13 +6,13 @@ import com.testservice.webapp.entity.Reservation;
 import java.util.List;
 
 public interface ReservationService {
-    public List<ReservationDto> getAllReservations();
+    List<ReservationDto> getAllReservations();
 
-    public ReservationDto getById(int id);
+    ReservationDto getById(int id);
 
-    public List<ReservationDto> getByCustomerId(int id);
+    List<ReservationDto> getByCustomerId(int id);
 
-    public void deleteReservation(Reservation reservation);
+    void deleteReservation(Reservation reservation);
 
-    public void createReservation(Reservation reservation);
+    void createReservation(Reservation reservation);
 }

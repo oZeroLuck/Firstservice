@@ -1,5 +1,6 @@
 package com.testservice.webapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -17,12 +18,10 @@ public class Reservation implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="vehicle_id", referencedColumnName = "id", nullable = false)
-    @JsonManagedReference
     private Vehicle theVehicle;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="customer_id", nullable = false)
-    @JsonManagedReference
     //@JsonBackReference
     private User theCustomer;
 
