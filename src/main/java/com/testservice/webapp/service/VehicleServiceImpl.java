@@ -5,6 +5,8 @@ import com.testservice.webapp.repository.VehicleRep;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -17,24 +19,24 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public List<Vehicle> getAll() {
+        return vehicleRep.findAll();
+    }
+
+    @Override
     public Vehicle getVehicleById(int id) {
         return this.vehicleRep.getVehicleById(id);
     }
 
     @Override
     @Transactional
-    public void createVehicle(Vehicle vehicle) {
+    public void save(Vehicle vehicle) {
         this.vehicleRep.save(vehicle);
     }
 
     @Override
     @Transactional
-    public void deleteVehicle(Vehicle vehicle) {
+    public void delete(Vehicle vehicle) {
         this.vehicleRep.delete(vehicle);
-    }
-
-    @Override
-    public void save(Vehicle vehicle) {
-        this.vehicleRep.save(vehicle);
     }
 }

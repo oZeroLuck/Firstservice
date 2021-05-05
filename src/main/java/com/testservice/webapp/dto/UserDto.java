@@ -1,6 +1,6 @@
 package com.testservice.webapp.dto;
 
-import com.testservice.webapp.entity.User;
+import com.testservice.webapp.entity.WebUser;
 
 import java.util.Date;
 
@@ -13,13 +13,13 @@ public class UserDto {
     private String username;
     private Date birthDate;
 
-    public UserDto(User user) {
-        this.id = user.getId();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.email = user.getEmail();
-        this.username = user.getUsername();
-        this.birthDate = user.getBirthDate();
+    public UserDto(WebUser webUser) {
+        this.id = webUser.getId();
+        this.firstName = webUser.getFirstName();
+        this.lastName = webUser.getLastName();
+        this.email = webUser.getEmail();
+        this.username = webUser.getUsername();
+        this.birthDate = webUser.getBirthDate();
     }
 
     public int getId() {

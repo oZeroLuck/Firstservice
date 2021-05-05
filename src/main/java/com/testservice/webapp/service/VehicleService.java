@@ -2,12 +2,15 @@ package com.testservice.webapp.service;
 
 import com.testservice.webapp.entity.Vehicle;
 
+import java.util.List;
+
 public interface VehicleService {
-    public Vehicle getVehicleById(int id);
 
-    public void createVehicle(Vehicle vehicle);
+    List<Vehicle> getAll();
 
-    public void deleteVehicle(Vehicle vehicle);
+    Vehicle getVehicleById(int id);
 
     void save(Vehicle vehicle);
+
+    void delete(Vehicle vehicle);
 }

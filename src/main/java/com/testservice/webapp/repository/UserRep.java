@@ -1,17 +1,17 @@
 package com.testservice.webapp.repository;
 
-import com.testservice.webapp.entity.User;
+import com.testservice.webapp.entity.WebUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface UserRep extends CrudRepository<User, Integer> {
+public interface UserRep extends CrudRepository<WebUser, Integer> {
 
-    List<User> getDistinctByIsAdmin(boolean isAdmin);
+    List<WebUser> getDistinctByIsAdmin(boolean isAdmin);
 
-    User getById(int id);
+    WebUser getById(int id);
 
-    User getByUsername(String username);
+    WebUser getByUsername(String username);
 
-    User getByIdAndUsername(int id, String username);
+    WebUser getByIdAndUsername(int id, String username);
 }

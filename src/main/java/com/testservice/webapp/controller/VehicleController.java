@@ -1,8 +1,8 @@
 package com.testservice.webapp.controller;
 
-import com.testservice.webapp.entity.Reservation;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.testservice.webapp.entity.Vehicle;
-import com.testservice.webapp.repository.ReservationRep;
 import com.testservice.webapp.service.VehicleService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,30 +10,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/jpa")
+@RequestMapping("/vehicle")
 @CrossOrigin(origins = "http://localhost:4200")
-public class CarParkController {
+public class VehicleController {
 
     private final VehicleService vehicleService;
-    private final ReservationRep reservationRep;
 
-    public CarParkController(VehicleService vehicleService, ReservationRep reservationRep) {
+    public VehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
-        this.reservationRep = reservationRep;
     }
 
-    @GetMapping("/find")
-    public Vehicle getVehicle() {
-        return vehicleService.getVehicleById(1);
+    @GetMapping("/get/{id}")
+    public Vehicle getVehicle(@PathVariable("id") int id) {
+        return vehicleService.getVehicleById(id);
     }
 
-    @GetMapping("/reservation")
-    public Reservation getReservation() {
-        return reservationRep.getReservationById(2);
+    @GetMapping("/get/all")
+    public List<Vehicle> getAll() {
+        return vehicleService.getAll();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle, BindingResult bindingResult) {
         String ErrMsg = "";
         if (bindingResult.hasErrors()) {
@@ -52,7 +52,7 @@ public class CarParkController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/update")
     public ResponseEntity<Vehicle> updateVehicle(@RequestBody Vehicle vehicle, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error");
@@ -62,5 +62,23 @@ public class CarParkController {
             vehicleService.save(vehicle);
         }
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete(@PathVariable("id") int id) {
+        Vehicle vehicle = vehicleService.getVehicleById(id);
+        if (vehicle == null) {
+            System.out.println("Error");
+        }
+
+        vehicleService.delete(vehicle);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode responseNode = mapper.createObjectNode();
+
+        responseNode.put("code", HttpStatus.OK.toString());
+        responseNode.put("message", "Delete vehicle " + id + " successfully executed");
+
+        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
     }
 }

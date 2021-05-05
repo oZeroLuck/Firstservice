@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table
-public class User implements Serializable {
+@Table(name = "user")
+public class WebUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -49,7 +49,7 @@ public class User implements Serializable {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    public User() { }
+    public WebUser() { }
 
     public int getId() {
         return id;
@@ -75,7 +75,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String firstName, String lastName, String email, String username, String password, Date birthDate) {
+    public WebUser(String firstName, String lastName, String email, String username, String password, Date birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

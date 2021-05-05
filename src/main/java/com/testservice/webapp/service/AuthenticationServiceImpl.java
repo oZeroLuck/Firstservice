@@ -1,7 +1,7 @@
 package com.testservice.webapp.service;
 
 import com.testservice.webapp.dto.AuthenticationInfoDto;
-import com.testservice.webapp.entity.User;
+import com.testservice.webapp.entity.WebUser;
 import com.testservice.webapp.repository.UserRep;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationInfoDto getUserInfo(String username) {
-        User user = userRep.getByUsername(username);
-        return new AuthenticationInfoDto(user);
+        WebUser webUser = userRep.getByUsername(username);
+        System.out.println(webUser.getPassword());
+        return new AuthenticationInfoDto(webUser);
     }
 }

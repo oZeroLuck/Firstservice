@@ -1,5 +1,10 @@
 package com.testservice.webapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -8,15 +13,14 @@ import org.springframework.web.bind.annotation.*;
 public class HelloRestController {
 
     @GetMapping(value = "/test")
-    public String getGreeting() {
-        return ("Hello world!");
-    }
+    public ResponseEntity<?> getGreeting() {
 
-    @GetMapping(value = "/hello/{name}")
-    public String getGreeting2(@PathVariable("name") String name) {
-        if (name.equals("Sara")) {
-            throw new RuntimeException("You're not welcome Sara");
-        }
-        return String.format("\"Hello %s, I'm a restful service!\"", name);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode responseNode = mapper.createObjectNode();
+
+        responseNode.put("code", HttpStatus.OK.toString());
+        responseNode.put("message", "Test Connessione Ok");
+
+        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
     }
 }

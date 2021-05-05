@@ -1,27 +1,27 @@
 package com.testservice.webapp.service;
 
 import com.testservice.webapp.dto.UserDto;
-import com.testservice.webapp.entity.User;
+import com.testservice.webapp.entity.WebUser;
 
 import java.util.List;
 
 public interface UserService {
 
-    User getById(int id);
+    WebUser getById(int id);
 
     List<UserDto> getAllUsers();
 
     UserDto getDtoById(int id);
 
-    User getByUsername(String username);
+    WebUser getByUsername(String username);
 
-    User getByIdAndUsername(int id, String username);
+    WebUser getByIdAndUsername(int id, String username);
 
-    void create(User user);
+    void create(WebUser webUser);
 
-    void update(User user);
+    void update(WebUser webUser);
 
-    void deleteUser(User user);
+    void deleteUser(WebUser webUser);
 
 
 }

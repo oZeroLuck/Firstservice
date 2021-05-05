@@ -1,6 +1,6 @@
 package com.testservice.webapp.dto;
 
-import com.testservice.webapp.entity.User;
+import com.testservice.webapp.entity.WebUser;
 
 public class AuthenticationInfoDto {
 
@@ -9,11 +9,11 @@ public class AuthenticationInfoDto {
     private String password;
     private boolean isAdmin;
 
-    public AuthenticationInfoDto(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.isAdmin = user.getIsAdmin();
+    public AuthenticationInfoDto(WebUser webUser) {
+        this.id = webUser.getId();
+        this.username = webUser.getUsername();
+        this.password = webUser.getPassword();
+        this.isAdmin = webUser.getIsAdmin();
     }
 
     public int getId() {

@@ -1,8 +1,9 @@
 package com.testservice.webapp.service;
 
 import com.testservice.webapp.dto.UserDto;
-import com.testservice.webapp.entity.User;
+import com.testservice.webapp.entity.WebUser;
 import com.testservice.webapp.repository.UserRep;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,21 +15,23 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRep userRep;
+    private final BCryptPasswordEncoder encoder;
 
-    public UserServiceImpl(UserRep userRep) {
+    public UserServiceImpl(UserRep userRep, BCryptPasswordEncoder encoder) {
         this.userRep = userRep;
+        this.encoder = encoder;
     }
 
     @Override
-    public User getById(int id) {
+    public WebUser getById(int id) {
         return this.userRep.getById(id);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        List<User> users = this.userRep.getDistinctByIsAdmin(false);
+        List<WebUser> webUsers = this.userRep.getDistinctByIsAdmin(false);
         List<UserDto> dtos = new ArrayList<>();
-        for (User u: users) {
+        for (WebUser u: webUsers) {
             UserDto temp = new UserDto(u);
             dtos.add(temp);
         }
@@ -41,31 +44,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByUsername(String username) {
-        User user = this.userRep.getByUsername(username);
+    public WebUser getByUsername(String username) {
         return this.userRep.getByUsername(username);
     }
 
     @Override
-    public User getByIdAndUsername(int id, String username) {
+    public WebUser getByIdAndUsername(int id, String username) {
         return this.userRep.getByIdAndUsername(id, username);
     }
 
     @Override
-    public void create(User user) {
-        user.setIsAdmin(false);
-        this.userRep.save(user);
+    @Transactional
+    public void create(WebUser webUser) {
+        webUser.setIsAdmin(false);
+        webUser.setPassword(encoder.encode(webUser.getPassword()));
+        this.userRep.save(webUser);
     }
 
     @Override
-    public void update(User user) {
-        User temp = userRep.getById(user.getId());
-        user.setPassword(temp.getPassword());
-        this.userRep.save(user);
+    @Transactional
+    public void update(WebUser webUser) {
+        WebUser temp = userRep.getById(webUser.getId());
+        webUser.setPassword(temp.getPassword());
+        this.userRep.save(webUser);
     }
 
     @Override
-    public void deleteUser(User user) {
-        this.userRep.delete(user);
+    @Transactional
+    public void deleteUser(WebUser webUser) {
+        this.userRep.delete(webUser);
     }
 }

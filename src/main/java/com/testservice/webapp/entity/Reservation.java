@@ -1,8 +1,5 @@
 package com.testservice.webapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -22,8 +19,7 @@ public class Reservation implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="customer_id", nullable = false)
-    //@JsonBackReference
-    private User theCustomer;
+    private WebUser theCustomer;
 
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
@@ -38,7 +34,7 @@ public class Reservation implements Serializable {
 
     public  Reservation() { }
 
-    public Reservation(Vehicle theVehicle, Date startDate, Date endDate, User theCustomer) {
+    public Reservation(Vehicle theVehicle, Date startDate, Date endDate, WebUser theCustomer) {
         this.theVehicle = theVehicle;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -65,11 +61,11 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public User getTheCustomer() {
+    public WebUser getTheCustomer() {
         return theCustomer;
     }
 
-    public void setTheCustomer(User theCustomer) {
+    public void setTheCustomer(WebUser theCustomer) {
         this.theCustomer = theCustomer;
     }
 
