@@ -33,17 +33,16 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    private static final String[] USER_MATCHER = {"/carPark/find"};
-    private static final String[] ADMIN_MATCHER = {"/carPark/**"};
+    private static final String[] USER_MATCHER = {"/carPark/find", "/homepage/customer/reservations/**"};
+    private static final String[] ADMIN_MATCHER = {"/carPark/**", "/homepage/customers/**"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 //.antMatchers("/**").permitAll()
-                .antMatchers("/**").hasAnyRole("USER",  "ADMIN")
-                //.antMatchers(USER_MATCHER).hasAnyRole("USER")
-                //.antMatchers(ADMIN_MATCHER).hasAnyRole("ADMIN")
+                .antMatchers(USER_MATCHER).hasAnyRole("USER")
+                .antMatchers(ADMIN_MATCHER).hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
