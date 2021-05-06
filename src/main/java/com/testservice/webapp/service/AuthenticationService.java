@@ -1,7 +1,7 @@
 package com.testservice.webapp.service;
 
-import com.testservice.webapp.dto.AuthenticationInfoDto;
+import com.testservice.webapp.dto.LoginRequest;
 
 public interface AuthenticationService {
-    AuthenticationInfoDto getUserInfo(String username);
+    LoginRequest getUserInfo(String username);
 }

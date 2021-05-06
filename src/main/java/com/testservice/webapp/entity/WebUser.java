@@ -1,7 +1,7 @@
 package com.testservice.webapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.testservice.webapp.dto.RegisterRequest;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -75,13 +75,13 @@ public class WebUser implements Serializable {
         this.password = password;
     }
 
-    public WebUser(String firstName, String lastName, String email, String username, String password, Date birthDate) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.birthDate = birthDate;
+    public WebUser(RegisterRequest request) {
+        this.firstName = request.getFirstName();
+        this.lastName = request.getLastName();
+        this.email = request.getEmail();
+        this.username = request.getUsername();
+        this.password = request.getPassword();
+        this.birthDate = request.getBirthDate();
         this.isAdmin = false;
 
     }

@@ -14,4 +14,8 @@ public interface UserRep extends CrudRepository<WebUser, Integer> {
     WebUser getByUsername(String username);
 
     WebUser getByIdAndUsername(int id, String username);
+
+    boolean existsWebUserByUsername(String username);
+
+    boolean existsWebUserByEmail(String email);
 }

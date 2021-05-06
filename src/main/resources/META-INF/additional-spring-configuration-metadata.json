@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "security.header",
+      "type": "java.lang.String",
+      "description": "Description for security.header."
+    },
+    {
+      "name": "security.uri",
+      "type": "java.lang.String",
+      "description": "Description for security.uri."
+    }
+  ] }

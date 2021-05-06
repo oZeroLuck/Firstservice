@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void create(WebUser webUser) {
-        webUser.setIsAdmin(false);
         webUser.setPassword(encoder.encode(webUser.getPassword()));
         this.userRep.save(webUser);
     }
@@ -73,5 +72,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(WebUser webUser) {
         this.userRep.delete(webUser);
+    }
+
+    @Override
+    public boolean existByUsername(String username) {
+        return userRep.existsWebUserByUsername(username);
+    }
+
+    @Override
+    public boolean existByEmail(String email) {
+        return userRep.existsWebUserByEmail(email);
     }
 }

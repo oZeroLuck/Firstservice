@@ -23,5 +23,7 @@ public interface UserService {
 
     void deleteUser(WebUser webUser);
 
+    boolean existByUsername(String username);
 
+    boolean existByEmail(String email);
 }
