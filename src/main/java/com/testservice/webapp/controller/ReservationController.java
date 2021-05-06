@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reservation")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -23,7 +22,6 @@ public class ReservationController {
     }
 
     @GetMapping("/getById/{customerId}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public List<ReservationDto> getAll(@PathVariable("customerId") int customerId) {
         return this.reservationService.getByCustomerId(customerId);
     }

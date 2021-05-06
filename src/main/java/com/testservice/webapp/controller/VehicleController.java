@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vehicle")
-@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -30,7 +29,10 @@ public class VehicleController {
 
     @GetMapping("/get/all")
     public List<Vehicle> getAll() {
-        return vehicleService.getAll();
+        System.out.println("getting");
+        List<Vehicle> vehicles = vehicleService.getAll();
+        System.out.println(vehicles.get(0));
+        return vehicles;
     }
 
     @PostMapping("/create")

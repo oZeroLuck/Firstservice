@@ -6,6 +6,8 @@ public class LoginRequest {
     private String username;
     private String password;
 
+    public LoginRequest() {};
+
     public LoginRequest(WebUser webUser) {
         this.username = webUser.getUsername();
         this.password = webUser.getPassword();

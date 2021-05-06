@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -22,12 +21,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    // TODO: Change login method
-    @GetMapping("/login/{username}")
-    public WebUser getLogin(@PathVariable("username") String username) {
-        return userService.getByUsername(username);
     }
 
     @GetMapping("/get/all")

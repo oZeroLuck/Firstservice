@@ -100,6 +100,17 @@ public class Vehicle implements Serializable {
         this.regYear = yOfRegistration;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRegYear() {
+        return regYear;
+    }
+
+    public void setRegYear(int regYear) {
+        this.regYear = regYear;
+    }
 }
 
 /*

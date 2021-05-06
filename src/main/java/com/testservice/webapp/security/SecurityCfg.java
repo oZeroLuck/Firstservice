@@ -51,20 +51,32 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    private static final String[] USER_MATCHER = {"/carPark/find", "/homepage/customer/reservations/**"};
-    private static final String[] ADMIN_MATCHER = {"/carPark/**", "/homepage/customers/**"};
+    private static final String[] COMMON_MATCHER = {
+            "/user/update",
+            "/vehicle/get/all",
+    };
+
+    private static final String[] USER_MATCHER = {
+            "/vehicle/get/all",
+            "/reservation/**",
+            "/user/get/**",
+            "/user/update"
+    };
+    private static final String[] ADMIN_MATCHER = {
+            "/user/get/**",
+    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/auth/login/**").permitAll().antMatchers(HttpMethod.GET, "/**").permitAll()
-                .antMatchers(USER_MATCHER).hasAnyRole("USER")
-                .antMatchers(ADMIN_MATCHER).hasAnyRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(authEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .antMatchers("/auth/login/**").permitAll()
+                .antMatchers(COMMON_MATCHER).hasAnyRole("USER", "ADMIN")
+                .antMatchers(USER_MATCHER).hasRole("USER")
+                .antMatchers(ADMIN_MATCHER).hasRole("ADMIN")
+                .anyRequest().authenticated();
 
                 http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

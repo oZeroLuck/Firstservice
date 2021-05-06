@@ -1,9 +1,13 @@
 package com.testservice.webapp;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@Configuration
+@EnableWebMvc
 public class FiltersCorsConfig implements WebMvcConfigurer {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -12,7 +16,7 @@ public class FiltersCorsConfig implements WebMvcConfigurer {
            public void addCorsMappings(CorsRegistry registry) {
                registry
                        .addMapping("/**")
-                       .allowedOrigins("*")
+                       .allowedOrigins("http://localhost:4200")
                        .allowedMethods("PUT", "DELETE", "GET", "POST", "OPTIONS", "HEAD", "PATCH")
                        .allowedHeaders("*")
                        .exposedHeaders("header1", "header2", "Authorization")
