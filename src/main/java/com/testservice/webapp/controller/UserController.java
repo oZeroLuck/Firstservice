@@ -6,7 +6,6 @@ import com.testservice.webapp.dto.PassRequest;
 import com.testservice.webapp.dto.UserDto;
 import com.testservice.webapp.entity.WebUser;
 import com.testservice.webapp.service.UserService;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.WatchEvent;
 import java.util.List;
 
 @RestController
@@ -85,13 +85,7 @@ public class UserController {
 
     @PutMapping("/update/password")
     public ResponseEntity<PassRequest> updatePassword(@RequestBody PassRequest req) {
-        WebUser temp = userService.getById(req.getId());
-        String encodedPwd = encoder.encode(req.getCurrentPassword());
-        System.out.println(temp.getPassword());
-        System.out.println(encodedPwd);
-        if(temp.getPassword().equals(encodedPwd)) {
-            temp.setPassword(encoder.encode(req.getNewPassword()));
-            userService.update(temp);
+        if(userService.updatePassword(req)) {
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);

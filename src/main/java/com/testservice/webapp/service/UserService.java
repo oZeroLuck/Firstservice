@@ -1,5 +1,6 @@
 package com.testservice.webapp.service;
 
+import com.testservice.webapp.dto.PassRequest;
 import com.testservice.webapp.dto.UserDto;
 import com.testservice.webapp.entity.WebUser;
 
@@ -20,6 +21,8 @@ public interface UserService {
     void create(WebUser webUser);
 
     void update(WebUser webUser);
+
+    boolean updatePassword(PassRequest req);
 
     void deleteUser(WebUser webUser);
 

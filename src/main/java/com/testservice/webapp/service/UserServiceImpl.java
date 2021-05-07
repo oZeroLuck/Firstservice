@@ -1,5 +1,6 @@
 package com.testservice.webapp.service;
 
+import com.testservice.webapp.dto.PassRequest;
 import com.testservice.webapp.dto.UserDto;
 import com.testservice.webapp.entity.WebUser;
 import com.testservice.webapp.repository.UserRep;
@@ -66,6 +67,18 @@ public class UserServiceImpl implements UserService {
         WebUser temp = userRep.getById(webUser.getId());
         webUser.setPassword(temp.getPassword());
         this.userRep.save(webUser);
+    }
+
+    @Override
+    public boolean updatePassword(PassRequest req) {
+        WebUser user = getById(req.getId());
+        if(encoder.matches(req.getCurrentPassword(), user.getPassword())) {
+            user.setPassword(encoder.encode(req.getNewPassword()));
+            update(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
