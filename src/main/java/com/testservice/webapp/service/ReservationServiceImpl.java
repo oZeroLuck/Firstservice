@@ -1,12 +1,14 @@
 package com.testservice.webapp.service;
 
 import com.testservice.webapp.dto.ReservationDto;
+import com.testservice.webapp.dto.Reserved;
 import com.testservice.webapp.entity.Reservation;
 import com.testservice.webapp.repository.ReservationRep;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,6 +35,17 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationDto> getByCustomerId(int id) {
         return transform(reservationRep.getByTheCustomerId(id));
+    }
+
+    @Override
+    public List<Reserved> getReserved() {
+        List<Reservation> reservations = reservationRep.getByStartDateAfter(new Date());
+        List<Reserved> toRet = new ArrayList<>();
+        for (Reservation res : reservations) {
+            Reserved temp = new Reserved(res);
+            toRet.add(temp);
+        }
+        return toRet;
     }
 
     @Override

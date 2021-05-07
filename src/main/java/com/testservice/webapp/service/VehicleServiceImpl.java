@@ -36,6 +36,10 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     @Transactional
+    public void update(Vehicle vehicle) { this.vehicleRep.save(vehicle);}
+
+    @Override
+    @Transactional
     public void delete(Vehicle vehicle) {
         this.vehicleRep.delete(vehicle);
     }

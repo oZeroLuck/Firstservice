@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -54,6 +53,7 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
     private static final String[] COMMON_MATCHER = {
             "/user/update",
             "/vehicle/get/all",
+            "/user/get/**"
     };
 
     private static final String[] USER_MATCHER = {
@@ -64,19 +64,21 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
     };
     private static final String[] ADMIN_MATCHER = {
             "/user/get/**",
+            "/vehicle/get/**",
+            "/reservation/**"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/auth/login/**").permitAll()
-                .antMatchers(COMMON_MATCHER).hasAnyRole("USER", "ADMIN")
+                .antMatchers("/**").permitAll()
+                /*.antMatchers(COMMON_MATCHER).hasAnyRole("USER", "ADMIN")
                 .antMatchers(USER_MATCHER).hasRole("USER")
-                .antMatchers(ADMIN_MATCHER).hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .antMatchers(ADMIN_MATCHER).hasRole("ADMIN")*/
+                .anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
                 http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

@@ -32,7 +32,7 @@ public class Vehicle implements Serializable {
 
     @Column(name = "year_of_registration")
     @NotNull
-    private int regYear;
+    private int registrationYear;
 
     @OneToMany(mappedBy = "theVehicle", cascade = CascadeType.REMOVE)
     @JsonIgnore
@@ -46,12 +46,12 @@ public class Vehicle implements Serializable {
         this.reservation = reservation;
     }
 
-    public Vehicle(String type, String licencePlate, String model, String brand, int regYear) {
+    public Vehicle(String type, String licencePlate, String model, String brand, int registrationYear) {
         this.type = type.toUpperCase();
         this.licencePlate = licencePlate.toUpperCase();
         this.model = model.toUpperCase();
         this.brand = brand.toUpperCase();
-        this.regYear = regYear;
+        this.registrationYear = registrationYear;
     }
 
     public Vehicle() { }
@@ -92,24 +92,16 @@ public class Vehicle implements Serializable {
         return id;
     }
 
-    public int getyRegYear() {
-        return regYear;
-    }
-
-    public void setyRegYear(int yOfRegistration) {
-        this.regYear = yOfRegistration;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getRegYear() {
-        return regYear;
+    public int getRegistrationYear() {
+        return registrationYear;
     }
 
-    public void setRegYear(int regYear) {
-        this.regYear = regYear;
+    public void setRegistrationYear(int regYear) {
+        this.registrationYear = regYear;
     }
 }
 

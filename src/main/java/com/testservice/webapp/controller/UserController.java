@@ -30,6 +30,8 @@ public class UserController {
 
     @GetMapping("/get/{userId}")
     public UserDto getUser(@PathVariable("userId") int userId) {
+        UserDto user = userService.getDtoById(userId);
+        System.out.println(user.getBirthDate());
         return userService.getDtoById(userId);
     }
 

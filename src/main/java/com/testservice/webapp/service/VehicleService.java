@@ -12,5 +12,7 @@ public interface VehicleService {
 
     void save(Vehicle vehicle);
 
+    void update(Vehicle vehicle);
+
     void delete(Vehicle vehicle);
 }

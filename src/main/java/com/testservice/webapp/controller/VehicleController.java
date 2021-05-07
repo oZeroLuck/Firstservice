@@ -29,10 +29,7 @@ public class VehicleController {
 
     @GetMapping("/get/all")
     public List<Vehicle> getAll() {
-        System.out.println("getting");
-        List<Vehicle> vehicles = vehicleService.getAll();
-        System.out.println(vehicles.get(0));
-        return vehicles;
+        return vehicleService.getAll();
     }
 
     @PostMapping("/create")

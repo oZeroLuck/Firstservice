@@ -8,6 +8,7 @@ public class ReservationDto {
     private int id;
     private int userId;
     private int vehicleId;
+    private String vehicleInfo;
     private Date startDate;
     private Date endDate;
     private String status;
@@ -16,6 +17,8 @@ public class ReservationDto {
         this.id = reservation.getId();
         this.userId = reservation.getTheCustomer().getId();
         this.vehicleId = reservation.getTheVehicle().getId();
+        this.vehicleInfo = reservation.getTheVehicle().getBrand()
+                                + " " + reservation.getTheVehicle().getModel();
         this.startDate = reservation.getStartDate();
         this.endDate = reservation.getEndDate();
         this.status = reservation.getStatus();
@@ -37,12 +40,12 @@ public class ReservationDto {
         this.userId = userId;
     }
 
-    public int getVehicleId() {
-        return vehicleId;
+    public String getVehicleInfo() {
+        return vehicleInfo;
     }
 
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicleInfo(String vehicleInfo) {
+        this.vehicleInfo = vehicleInfo;
     }
 
     public Date getStartDate() {
@@ -55,6 +58,14 @@ public class ReservationDto {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     public void setEndDate(Date endDate) {
