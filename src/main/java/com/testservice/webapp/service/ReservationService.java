@@ -9,7 +9,9 @@ import java.util.List;
 public interface ReservationService {
     List<ReservationDto> getAllReservations();
 
-    ReservationDto getById(int id);
+    ReservationDto getDtoById(int id);
+
+    Reservation getById(int id);
 
     List<ReservationDto> getByCustomerId(int id);
 

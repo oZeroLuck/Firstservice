@@ -28,8 +28,13 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public ReservationDto getById(int id) {
+    public ReservationDto getDtoById(int id) {
         return new ReservationDto(reservationRep.getReservationById(id));
+    }
+
+    @Override
+    public Reservation getById(int id) {
+        return reservationRep.getReservationById(id);
     }
 
     @Override
