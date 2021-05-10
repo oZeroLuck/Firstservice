@@ -1,5 +1,6 @@
 package com.testservice.webapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.testservice.webapp.entity.WebUser;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ public class UserDto {
     private String lastName;
     private String email;
     private String username;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
     private Date birthDate;
 
     public UserDto(WebUser webUser) {

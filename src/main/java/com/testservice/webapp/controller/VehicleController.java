@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class VehicleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle, BindingResult bindingResult) {
+    public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle, BindingResult bindingResult) {
         String ErrMsg = "";
         if (bindingResult.hasErrors()) {
             ErrMsg = "Error";
@@ -48,7 +49,7 @@ public class VehicleController {
         if(ErrMsg.equals("")) {
             System.out.println(ErrMsg);
         }
-        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<Vehicle>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
@@ -63,7 +64,7 @@ public class VehicleController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @PostMapping(value = "/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
         if (vehicle == null) {

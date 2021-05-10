@@ -45,7 +45,6 @@ public class AuthenticationController {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // Temporary patch
         WebUser webUser = userService.getByUsername(userDetails.getUsername());
         List<String> role = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

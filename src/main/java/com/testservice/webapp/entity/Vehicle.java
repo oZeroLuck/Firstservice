@@ -2,6 +2,7 @@ package com.testservice.webapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import com.testservice.webapp.validator.PlateConstraint;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,8 @@ public class Vehicle implements Serializable {
     @NotNull
     private String type;
 
-    @Column(name = "licence_plate")
+    @Column(name = "licence_plate", unique = true)
+    @PlateConstraint
     private String licencePlate;
 
     @Column(name = "model")

@@ -1,6 +1,9 @@
 package com.testservice.webapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,22 +17,29 @@ public class Reservation implements Serializable {
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
     @JoinColumn(name="vehicle_id", referencedColumnName = "id", nullable = false)
     private Vehicle theVehicle;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
     @JoinColumn(name="customer_id", nullable = false)
     private WebUser theCustomer;
 
     @Column(name = "start_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date startDate;
 
     @Column(name = "end_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date endDate;
 
     @Column(name = "status")
+    @NotNull
     private String status = "Pending";
 
     public  Reservation() { }

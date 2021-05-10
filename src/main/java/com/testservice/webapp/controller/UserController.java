@@ -9,11 +9,10 @@ import com.testservice.webapp.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.WatchEvent;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,12 +20,9 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PasswordEncoder encoder;
 
-    public UserController(UserService userService,
-                          PasswordEncoder encoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.encoder = encoder;
     }
 
     @GetMapping("/get/all")
@@ -42,10 +38,12 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<WebUser> createUser(@RequestBody WebUser webUser, BindingResult bindingResult) {
+    public ResponseEntity<WebUser> createUser(@Valid @RequestBody WebUser webUser, BindingResult bindingResult) {
         WebUser checkWebUser = userService.getByIdAndUsername(webUser.getId(), webUser.getUsername());
         if (checkWebUser != null || bindingResult.hasErrors()) {
             System.out.println("WebUser Error");
+            System.out.println(bindingResult.getAllErrors().toString());
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } else {
             userService.create(webUser);
         }
@@ -77,7 +75,9 @@ public class UserController {
         }
         WebUser checkWebUser = userService.getById(webUser.getId());
         if(checkWebUser != null) {
-            System.out.println(webUser.getId());
+            if(webUser.getIsAdmin()) {
+                webUser.setIsAdmin(true);
+            }
             userService.update(webUser);
         }
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);

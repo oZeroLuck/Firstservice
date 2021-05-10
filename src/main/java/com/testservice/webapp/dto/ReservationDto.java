@@ -1,5 +1,6 @@
 package com.testservice.webapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.testservice.webapp.entity.Reservation;
 
 import java.util.Date;
@@ -8,8 +9,12 @@ public class ReservationDto {
     private int id;
     private int userId;
     private int vehicleId;
-    private String vehicleInfo;
+    private String vehiclePlate;
+    private String vehicleBrand;
+    private String vehicleModel;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
     private String status;
 
@@ -17,11 +22,12 @@ public class ReservationDto {
         this.id = reservation.getId();
         this.userId = reservation.getTheCustomer().getId();
         this.vehicleId = reservation.getTheVehicle().getId();
-        this.vehicleInfo = reservation.getTheVehicle().getBrand()
-                                + " " + reservation.getTheVehicle().getModel();
+        this.vehiclePlate = reservation.getTheVehicle().getLicencePlate();
+        this.vehicleBrand = reservation.getTheVehicle().getBrand();
+        this.vehicleModel = reservation.getTheVehicle().getModel();
         this.startDate = reservation.getStartDate();
         this.endDate = reservation.getEndDate();
-        this.status = reservation.getStatus();
+        this.status = reservation.getStatus().toLowerCase();
     }
 
     public int getId() {
@@ -40,12 +46,28 @@ public class ReservationDto {
         this.userId = userId;
     }
 
-    public String getVehicleInfo() {
-        return vehicleInfo;
+    public String getVehiclePlate() {
+        return vehiclePlate;
     }
 
-    public void setVehicleInfo(String vehicleInfo) {
-        this.vehicleInfo = vehicleInfo;
+    public void setVehiclePlate(String vehiclePlate) {
+        this.vehiclePlate = vehiclePlate;
+    }
+
+    public String getVehicleBrand() {
+        return vehicleBrand;
+    }
+
+    public void setVehicleBrand(String vehicleBrand) {
+        this.vehicleBrand = vehicleBrand;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
     }
 
     public Date getStartDate() {

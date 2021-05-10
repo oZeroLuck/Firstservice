@@ -1,19 +1,23 @@
 package com.testservice.webapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.testservice.webapp.entity.Reservation;
 
 import java.util.Date;
 
-public class Reserved {
-    private int vehicleId;
+public class ResCURequest {
+    int id, userId, vehicleId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date startDate, endDate;
+    Date startDate, endDate;
 
-    public Reserved(Reservation reservation) {
-        this.vehicleId = reservation.getTheVehicle().getId();
-        this.startDate = reservation.getStartDate();
-        this.endDate = reservation.getEndDate();
+    public ResCURequest() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVehicleId() {
@@ -38,5 +42,13 @@ public class Reserved {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

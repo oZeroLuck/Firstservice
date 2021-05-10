@@ -1,10 +1,12 @@
 package com.testservice.webapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.testservice.webapp.dto.RegisterRequest;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,27 +21,29 @@ public class WebUser implements Serializable {
     private int id;
 
     @Column(name = "first_name")
-    @Size//(min=2, max=50, message="{Size.customer.validation}")
+    @Size(min=2, max=20)
     private String firstName;
 
     @Column(name = "last_name")
-    @Size//(min=2, max=50, message="{Size.customer.validation}")
+    @Size(min=2, max=20)
     private String lastName;
 
     @Column(unique = true, name = "email")
-    @Email//(message="{Size.customer.email.validation}")
+    @Email
     private String email;
 
     @Column(unique = true, name = "username")
-    @Size//(min=2, max=50, message="{Size.customer.validation}")
+    @Size(min=2, max=20)
     private String username;
 
     @Column(name = "password")
-    @Size//(min=4, message="{Size.customer.password.validation}")
+    @Size(min=6)
     private String password;
 
     @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private Date birthDate;
 
     @OneToMany(mappedBy = "theCustomer", cascade = CascadeType.REMOVE)
@@ -47,6 +51,7 @@ public class WebUser implements Serializable {
     private List<Reservation> reservations;
 
     @Column(name = "is_admin")
+    @NotNull
     private boolean isAdmin;
 
     public WebUser() { }

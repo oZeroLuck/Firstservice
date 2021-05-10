@@ -72,4 +72,10 @@ public class ReservationServiceImpl implements ReservationService{
         }
         return reservationDtos;
     }
+
+    @Override
+    @Transactional
+    public void updateReservation(Reservation reservation) {
+        this.reservationRep.save(reservation);
+    }
 }

@@ -53,29 +53,37 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
     private static final String[] COMMON_MATCHER = {
             "/user/update",
             "/vehicle/get/all",
-            "/user/get/**"
+            "/vehicle/get/{id:\\d+}",
+            "/user/get/{id:\\d+}",
+            "/reservation/getAll",
+            "/reservation/getRes/{reservationId:\\d+}",
+            "/reservation/getById/{customerId:\\d+}"
     };
 
     private static final String[] USER_MATCHER = {
-            "/vehicle/get/all",
-            "/reservation/**",
-            "/user/get/**",
-            "/user/update"
+            "/user/update",
+            "/user/update/password",
+            "/reservation/create",
+            "/reservation/delete/{id:\\d+}",
+            "/reservation/update",
+            "/reservation/getReserved"
+
     };
     private static final String[] ADMIN_MATCHER = {
-            "/user/get/**",
-            "/vehicle/get/**",
-            "/reservation/**"
+            "/auth/register",
+            "/user/**",
+            "/vehicle/**",
+            "/reservation/approve"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                /*.antMatchers(COMMON_MATCHER).hasAnyRole("USER", "ADMIN")
-                .antMatchers(USER_MATCHER).hasRole("USER")
-                .antMatchers(ADMIN_MATCHER).hasRole("ADMIN")*/
+                .antMatchers("/auth/login").permitAll()
+                .antMatchers(COMMON_MATCHER).hasAnyRole("CUSTOMER", "ADMIN")
+                .antMatchers(USER_MATCHER).hasRole("CUSTOMER")
+                .antMatchers(ADMIN_MATCHER).hasRole("ADMIN")
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
