@@ -21,5 +21,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         WebUser webUser = userRep.getByUsername(username);
         System.out.println(webUser.getPassword());
         return new LoginRequest(webUser);
+
     }
 }
