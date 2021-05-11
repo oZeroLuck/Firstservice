@@ -6,6 +6,7 @@ import com.testservice.webapp.dto.PassRequest;
 import com.testservice.webapp.dto.UserDto;
 import com.testservice.webapp.entity.WebUser;
 import com.testservice.webapp.service.UserService;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -38,12 +40,13 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<WebUser> createUser(@Valid @RequestBody WebUser webUser, BindingResult bindingResult) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody WebUser webUser, BindingResult bindingResult) {
         WebUser checkWebUser = userService.getByIdAndUsername(webUser.getId(), webUser.getUsername());
         if (checkWebUser != null || bindingResult.hasErrors()) {
-            System.out.println("WebUser Error");
-            System.out.println(bindingResult.getAllErrors().toString());
-            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         } else {
             userService.create(webUser);
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
