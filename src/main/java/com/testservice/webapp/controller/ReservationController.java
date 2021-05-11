@@ -37,23 +37,46 @@ public class ReservationController {
     }
 
     @GetMapping("/getAll")
-    public List<ReservationDto> getAll() {
-        return this.reservationService.getAllReservations();
+    public ResponseEntity<List<ReservationDto>> getAll() {
+        List<ReservationDto> reservations = this.reservationService.getAllReservations();
+        if (reservations != null && !reservations.isEmpty()) {
+            return new ResponseEntity<>(reservations, HttpStatus.FOUND);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/getById/{customerId}")
-    public List<ReservationDto> getAll(@PathVariable("customerId") int customerId) {
-        return reservationService.getByCustomerId(customerId);
+    public ResponseEntity<List<ReservationDto>> getByCustomer(@PathVariable("customerId") int customerId) {
+        List<ReservationDto> reservationDtos = reservationService.getByCustomerId(customerId);
+        if (reservationDtos != null && !reservationDtos.isEmpty()){
+            return new ResponseEntity<>(reservationDtos, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/getRes/{reservationId}")
-    public ReservationDto getResById(@PathVariable("reservationId") int resId) {
-        return reservationService.getDtoById(resId);
+    public ResponseEntity<ReservationDto> getResById(@PathVariable("reservationId") int resId) {
+        ReservationDto reservationDto = reservationService.getDtoById(resId);
+        if (reservationDto != null) {
+            return new ResponseEntity<>(reservationDto, HttpStatus.OK
+);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/getReserved")
-    public List<Reserved> getReserved() {
-        return this.reservationService.getReserved();
+    public ResponseEntity<List<Reserved>> getReserved() {
+        List<Reserved> reserved = this.reservationService.getReserved();
+        if (reserved != null && !reserved.isEmpty()) {
+            return new ResponseEntity<>(reserved, HttpStatus.OK
+);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/create")

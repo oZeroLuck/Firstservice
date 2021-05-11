@@ -28,15 +28,25 @@ public class UserController {
     }
 
     @GetMapping("/get/all")
-    public List<UserDto> getCustomers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserDto>> getCustomers() {
+        List<UserDto> userDtos = userService.getAllUsers();
+        if (userDtos != null && !userDtos.isEmpty()) {
+            return new ResponseEntity<>(userDtos, HttpStatus.OK
+);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get/{userId}")
-    public UserDto getUser(@PathVariable("userId") int userId) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("userId") int userId) {
         UserDto user = userService.getDtoById(userId);
-        System.out.println(user.getBirthDate());
-        return userService.getDtoById(userId);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK
+);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/create")

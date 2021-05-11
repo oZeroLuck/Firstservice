@@ -24,13 +24,25 @@ public class VehicleController {
     }
 
     @GetMapping("/get/{id}")
-    public Vehicle getVehicle(@PathVariable("id") int id) {
-        return vehicleService.getVehicleById(id);
+    public ResponseEntity<Vehicle> getVehicle(@PathVariable("id") int id) {
+        Vehicle vehicle =  vehicleService.getVehicleById(id);
+        if (vehicle != null) {
+            return new ResponseEntity<>(vehicle, HttpStatus.OK
+);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get/all")
-    public List<Vehicle> getAll() {
-        return vehicleService.getAll();
+    public ResponseEntity<List<Vehicle>> getAll() {
+        List<Vehicle> vehicles = vehicleService.getAll();
+        if (vehicles != null && !vehicles.isEmpty()) {
+            return new ResponseEntity<>(vehicles, HttpStatus.OK
+);
+        } else {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/create")
