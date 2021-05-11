@@ -2,10 +2,13 @@ package com.testservice.webapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class ResCURequest {
+    @NotNull
     int id, userId, vehicleId;
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date startDate, endDate;
 

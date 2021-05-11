@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -56,10 +57,11 @@ public class ReservationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Reservation> createReservation(@RequestBody ResCURequest request, BindingResult bindingResult) {
+    public ResponseEntity<Reservation> createReservation(@Valid @RequestBody ResCURequest request,
+                                                         BindingResult bindingResult) {
         WebUser user = userService.getById(request.getUserId());
         Vehicle vehicle = vehicleService.getVehicleById(request.getVehicleId());
-        if (user != null && vehicle != null) {
+        if (user != null && vehicle != null && !bindingResult.hasErrors()) {
             Reservation newRes = new Reservation(vehicle,
                                                  request.getStartDate(),
                                                  request.getEndDate(),
@@ -83,11 +85,12 @@ public class ReservationController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Reservation> updateReservation(@RequestBody ResCURequest request) {
+    public ResponseEntity<Reservation> updateReservation(@Valid @RequestBody ResCURequest request,
+                                                         BindingResult bindingResult) {
         WebUser user = userService.getById(request.getUserId());
         Vehicle vehicle = vehicleService.getVehicleById(request.getVehicleId());
         Reservation reservation = reservationService.getById(request.getId());
-        if (user != null && vehicle != null && reservation !=null) {
+        if (user != null && vehicle != null && reservation !=null && !bindingResult.hasErrors()) {
             reservationService.updateReservation(reservation);
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
         } else {
@@ -96,9 +99,10 @@ public class ReservationController {
     }
 
     @PutMapping("/approve")
-    public ResponseEntity<?> approveReservation(@RequestBody ApproveRequest request) {
+    public ResponseEntity<?> approveReservation(@Valid @RequestBody ApproveRequest request,
+                                                BindingResult bindingResult) {
         Reservation reservation = reservationService.getById(request.getId());
-        if (reservation != null) {
+        if (reservation != null && !bindingResult.hasErrors()) {
             reservation.setStatus(request.getStatus());
             reservationService.updateReservation(reservation);
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);

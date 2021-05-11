@@ -1,13 +1,22 @@
 package com.testservice.webapp.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class RegisterRequest {
+    @Size(min=2, max=20)
     private String firstName;
+    @Size(min=2, max=20)
     private String lastName;
+    @Email
     private String email;
+    @Size(min=2, max=20)
     private String username;
+    @Size(min=6)
     private String password;
+    @NotNull
     private Date birthDate;
 
     public String getFirstName() {

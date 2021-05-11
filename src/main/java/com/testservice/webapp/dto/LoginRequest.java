@@ -2,8 +2,13 @@ package com.testservice.webapp.dto;
 
 import com.testservice.webapp.entity.WebUser;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class LoginRequest {
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
     public LoginRequest() {};

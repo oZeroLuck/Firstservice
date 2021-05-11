@@ -13,8 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,45 +37,53 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+                                              BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            Authentication authentication = authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtTokenUtil.generateJwtToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtTokenUtil.generateJwtToken(authentication);
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        WebUser webUser = userService.getByUsername(userDetails.getUsername());
-        List<String> role = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+            WebUser webUser = userService.getByUsername(userDetails.getUsername());
+            List<String> role = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                                                 webUser.getId(),
-                                                 userDetails.getUsername(),
-                                                 role.get(0)));
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    webUser.getId(),
+                    userDetails.getUsername(),
+                    role.get(0)));
+        }
+
+        return (ResponseEntity<?>) ResponseEntity.badRequest();
 
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
-        if (userService.existByEmail(request.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: Username is already taken!");
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest request,
+                                          BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            if (userService.existByEmail(request.getUsername())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Error: Username is already taken!");
+            }
+
+            if (userService.existByEmail(request.getEmail())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Error: Email is already registered");
+            }
+
+            WebUser webUser = new WebUser(request);
+
+            userService.create(webUser);
         }
-
-        if (userService.existByEmail(request.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: Email is already registered");
-        }
-
-        WebUser webUser = new WebUser(request);
-
-        userService.create(webUser);
 
         return ResponseEntity.ok("Success: User has been registered");
     }

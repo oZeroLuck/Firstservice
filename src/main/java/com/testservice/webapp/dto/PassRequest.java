@@ -1,6 +1,9 @@
 package com.testservice.webapp.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class PassRequest {
+    @NotNull
     private int id;
     private String currentPassword;
     private String newPassword;

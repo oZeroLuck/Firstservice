@@ -46,8 +46,8 @@ public class UserController {
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } else {
             userService.create(webUser);
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
@@ -69,7 +69,8 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<WebUser> updateVehicle(@RequestBody WebUser webUser, BindingResult bindingResult) {
+    public ResponseEntity<WebUser> updateVehicle(@Valid @RequestBody WebUser webUser,
+                                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error");
         }
@@ -84,8 +85,9 @@ public class UserController {
     }
 
     @PutMapping("/update/password")
-    public ResponseEntity<PassRequest> updatePassword(@RequestBody PassRequest req) {
-        if(userService.updatePassword(req)) {
+    public ResponseEntity<PassRequest> updatePassword(@Valid @RequestBody PassRequest req,
+                                                      BindingResult bindingResult) {
+        if(userService.updatePassword(req) && !bindingResult.hasErrors()) {
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);

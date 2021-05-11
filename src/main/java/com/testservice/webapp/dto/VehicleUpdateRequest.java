@@ -1,10 +1,13 @@
 package com.testservice.webapp.dto;
 
+import com.testservice.webapp.validator.RegistrationYearConstraint;
+
 public class VehicleUpdateRequest {
     private String licencePlate;
     private String brand;
     private String model;
     private String type;
+    @RegistrationYearConstraint
     private int registrationYear;
 
     public String getLicencePlate() {

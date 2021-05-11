@@ -1,7 +1,11 @@
 package com.testservice.webapp.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class ApproveRequest {
+    @NotNull
     int id;
+    @NotNull
     String status;
 
     public ApproveRequest () {};

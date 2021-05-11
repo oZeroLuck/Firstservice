@@ -3,6 +3,7 @@ package com.testservice.webapp.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import com.testservice.webapp.validator.PlateConstraint;
+import com.testservice.webapp.validator.RegistrationYearConstraint;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,7 +34,7 @@ public class Vehicle implements Serializable {
     private String brand;
 
     @Column(name = "year_of_registration")
-    @NotNull
+    @RegistrationYearConstraint
     private int registrationYear;
 
     @OneToMany(mappedBy = "theVehicle", cascade = CascadeType.REMOVE)
